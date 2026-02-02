@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
+
+<!-- Sweet & readable Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  background: url('background.jpg') no-repeat center center fixed; /* Replace with your background */
+  background-size: cover;
+  overflow: hidden;
+  color: white;
+  text-shadow: 1px 1px 3px #000;
+}
+
+.page {
+  display: none;
+  height: 100vh;
+  text-align: center;
+  padding: 40px;
+}
+
+.active {
+  display: block;
+}
+
+button, select {
+  padding: 15px 30px;
+  font-size: 18px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  margin: 10px;
+}
+
+img#her1 {
+  width: 350px; /* Bigger her1 image */
+  border-radius: 20px;
+  margin: 20px;
+}
+
+img#her2, img#finalPic {
+  width: 220px;
+  border-radius: 20px;
+  margin: 20px;
+}
+
+#no {
+  position: relative;
+}
+
+.heart, .love, .sparkle {
+  position: absolute;
+  font-size: 20px;
+  animation: float 6s linear forwards;
+}
+
+@keyframes float {
+  0% { transform: translateY(100vh); opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+.typewriter p {
+  border-right: .15em solid #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 0;
+  animation: typing 4s steps(40, end) forwards;
+}
+
+@keyframes typing {
+  to { width: 100%; }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="song" src="song.mp3" loop></audio>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Hello my love 💗</h1>
+  <img id="her1" src="her1.jpg">
+  <p>I made this just for you</p>
+  <button onclick="startSong(); next(2);">Next ➡️</button>
+</div>
+
+<!-- PAGE 2: Password -->
+<div class="page" id="p2">
+  <h2>Enter our official date 💌</h2>
+  <input id="pw" placeholder="DDMMYYYY">
+  <p id="err"></p>
+  <button onclick="check()">Unlock ❤️</button>
+</div>
+
+<!-- PAGE 3: Proposal -->
+<div class="page" id="p3">
+  <h1>YOU ARE MY LOVE BABYY SAYANG ❤️</h1>
+  <img id="her2" src="her2.jpg">
+  <p style="font-size:22px;">Will you celebrate Valentine with me?</p>
+  <button id="yes" onclick="startLoveAnimation()">Yes 💖</button>
+  <button id="no">No 😳</button>
+</div>
+
+<!-- PAGE 4: Activities -->
+<div class="page" id="p4">
+  <h1>Our Activities 💑</h1>
+  <p>Choose one activity (optional):</p>
+  <select id="activity">
+    <option value="run">🏃 Run 14.02 km</option>
+    <option value="date">🎨 Date at Pasar Seni</option>
+    <option value="blank">💖 Leave blank / do your own</option>
+  </select>
+  <p style="margin-top:20px; font-size:16px;">Don't forget to screenshot your answer and send to your lover 💌</p>
+  <button onclick="next(5)">Continue ❤️</button>
+</div>
+
+<!-- PAGE 5: Love Letter -->
+<div class="page" id="p5">
+  <h1>Terms & Conditions 💌</h1>
+  <div class="typewriter">
+    <p>
+      My love 💖,<br><br>
+      From the moment we met, I knew you were the one. 
+      I want to make every day special with you. 
+      Will you be my Valentine forever?<br><br>
+      Love always,<br>
+      Azri
+    </p>
+  </div>
+  <button onclick="next(6)">I Agree ❤️</button>
+</div>
+
+<!-- PAGE 6: Your Final Picture -->
+<div class="page" id="p6">
+  <h1>I love youu so much babyyy ❤️</h1>
+  <img id="finalPic" src="yourPic.jpg">
+  <button onclick="next(7)">Next ➡️</button>
+</div>
+
+<!-- PAGE 7: Last Page / Exit -->
+<div class="page" id="p7">
+  <h1>Forever & Always 💞</h1>
+  <p>Love you forever ❤️</p>
+  <button onclick="end()">Leave ❤️</button>
+</div>
+
+<script>
+// Song
+const song = document.getElementById("song");
+function startSong(){ if(song.paused) song.play(); }
+
+// Page navigation
+function next(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  document.getElementById("p"+n).classList.add("active");
+}
+
+// Password
+function check(){
+  const pw = document.getElementById("pw").value;
+  if(pw==="16012026"){ next(3); startSong(); }
+  else { document.getElementById("err").innerText = "Wrong date 😳"; }
+}
+
+// "No" button runs away + hearts
+const noBtn = document.getElementById("no");
+noBtn.onmouseover = ()=>{
+  noBtn.style.transform = `translate(${Math.random()*300-150}px, ${Math.random()*300-150}px)`;
+  createHeart();
+};
+
+// Flying hearts for "No"
+function createHeart(){
+  const heart = document.createElement('div');
+  heart.classList.add('sparkle');
+  heart.innerText="💖";
+  heart.style.left = Math.random()*window.innerWidth+"px";
+  heart.style.top = window.innerHeight + "px";
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.remove(),6000);
+}
+
+// Flying hearts animation on YES
+function startLoveAnimation(){
+  for(let i=0;i<50;i++){ setTimeout(createLove,i*150); } // slower, lasts visible
+  setTimeout(()=>{ next(4); },6000);
+}
+
+function createLove(){
+  const love=document.createElement('div');
+  love.classList.add('love');
+  love.innerText="💘";
+  love.style.left=Math.random()*window.innerWidth+"px";
+  love.style.top=window.innerHeight+"px";
+  document.body.appendChild(love);
+  setTimeout(()=>love.remove(),6000);
+}
+
+// Typing effect
+const typeWriterText = document.querySelector('.typewriter p');
+let i=0;
+const text=typeWriterText.innerText;
+typeWriterText.innerText='';
+function typeWriter(){
+  if(i<text.length){
+    typeWriterText.innerText+=text.charAt(i);
+    i++;
+    createSparkle();
+    setTimeout(typeWriter,50);
+  }
+}
+typeWriter();
+
+// Small sparkle near letter
+function createSparkle(){
+  const sparkle=document.createElement('div');
+  sparkle.classList.add('sparkle');
+  sparkle.innerText="💖";
+  sparkle.style.left=(window.innerWidth/2-50+Math.random()*100)+"px";
+  sparkle.style.top=(window.innerHeight/2-50+Math.random()*100)+"px";
+  document.body.appendChild(sparkle);
+  setTimeout(()=>{sparkle.remove();},1000);
+}
+
+// End / Exit
+function end(){ alert("I love you ❤️ Forever."); }
+</script>
+
+</body>
+</html>
